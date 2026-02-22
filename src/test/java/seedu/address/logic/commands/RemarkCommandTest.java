@@ -12,3 +12,4 @@ import seedu.address.model.UserPrefs;
 public class RemarkCommandTest {
 
 }
+
