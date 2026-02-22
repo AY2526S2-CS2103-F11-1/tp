@@ -96,8 +96,16 @@ public class PersonBuilder {
         return new Person(name, phone, email, address, tags, remark);
     }
 
+    /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     *
+     * @param remark A valid remark for the person.
+     * @return This {@code PersonBuilder} instance for chaining.
+     */
     public PersonBuilder withRemark(String remark) {
         this.remark = new Remark(remark);
         return this;
     }
 }
+
+
