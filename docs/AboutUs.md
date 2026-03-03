@@ -39,15 +39,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: Overall Project coordination
 
-### Jean Doe
+### Navid Chew
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/nvdchw.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/nvdchw)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Role: Documentation + Integration
+* Responsibilities: Responsible for the quality of various project documents. In charge of versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole.
+
 
 ### LI KEHAN
 
