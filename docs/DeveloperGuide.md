@@ -284,11 +284,11 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and efficiency over complex graphical interfaces
 * wants all visit-related information consolidated in one place
 
-**Value proposition**: Currently, social workers rely on a combination of paper notebooks, 
-calendars and messaging apps to track who they are visiting, where it takes place and the 
-purpose or outcome of each visit. This fragmentation increases administrative workload, 
+**Value proposition**: Currently, social workers rely on a combination of paper notebooks,
+calendars and messaging apps to track who they are visiting, where it takes place and the
+purpose or outcome of each visit. This fragmentation increases administrative workload,
 raises the risk of missed follow-ups or incomplete records, and reduces overall efficiency. 
-CareSync helps social service workers keep track of their clients and service contact 
+CareSync helps social service workers keep track of their clients and service contact
 details as well as allow them to easily track upcoming visits with the various families.
 
 

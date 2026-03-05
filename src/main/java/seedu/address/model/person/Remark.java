@@ -1,5 +1,8 @@
 package seedu.address.model.person;
 
+/**
+ * Represents a Remark in the address book.
+ */
 public class Remark {
     public final String value;
 
