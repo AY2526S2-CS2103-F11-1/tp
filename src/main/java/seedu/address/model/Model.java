@@ -88,13 +88,11 @@ public interface Model {
     /**
      * Sorts the filtered person list by the specified {@code field}.
      * The ordering of the current filtered view will be updated accordingly.
-     *
-     * @param field The attribute used to sort the list (e.g. "name", "phone", "email").
      */
-    void sortFilteredPersonList(String field);
+    default void sortFilteredPersonList(String field){}
 
     /**
      * Resets the sorting of the filtered person list.
      */
-    void resetSort();
+    default void resetSort(){}
 }

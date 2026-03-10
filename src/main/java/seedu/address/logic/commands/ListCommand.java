@@ -18,11 +18,15 @@ public class ListCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists all persons in the address book.\n"
             + "Optionally sorts the list.\n"
-            + "Parameters: s/FIELD (FIELD: name, phone, email)\n"
+            + "Parameters: s/FIELD (FIELD: name)\n"
             + "Example: list\n"
             + "Example: list s/name";
 
     private final String sortField;
+
+    public ListCommand() {
+        this("");
+    }
 
     public ListCommand(String sortField) {
         this.sortField = sortField;
