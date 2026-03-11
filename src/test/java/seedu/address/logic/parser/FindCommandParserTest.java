@@ -42,4 +42,11 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, "find t/friends", expected);
     }
 
+    @Test
+    public void parse_missingPrefix_throwsParseException() {
+        assertParseFailure(parser, "find Alice Bob",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+
 }
