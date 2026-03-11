@@ -18,4 +18,18 @@ public class TagContainsPredicate implements Predicate<Person> {
         return person.getTags().stream()
                 .anyMatch(t -> t.tagName.equalsIgnoreCase(this.tag));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof TagContainsPredicate)) {
+            return false;
+        }
+
+        TagContainsPredicate otherPredicate = (TagContainsPredicate) other;
+        return tag.equals(otherPredicate.tag);
+    }
 }
