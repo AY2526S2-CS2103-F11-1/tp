@@ -98,6 +98,18 @@ public class PersonTest {
     }
 
     @Test
+    public void hashCodeMethod() {
+        // same values -> same hash code
+        Person aliceCopy = new PersonBuilder(ALICE).build();
+        assertEquals(ALICE.hashCode(), aliceCopy.hashCode());
+
+        // with visitDateTime -> same values same hash code
+        Person aliceWithVisit = new PersonBuilder(ALICE).withVisitDateTime("2026-12-01 14:00").build();
+        Person aliceWithVisitCopy = new PersonBuilder(ALICE).withVisitDateTime("2026-12-01 14:00").build();
+        assertEquals(aliceWithVisit.hashCode(), aliceWithVisitCopy.hashCode());
+    }
+
+    @Test
     public void toStringMethod_withVisitDateTime() {
         Person aliceWithVisitDateTime = new PersonBuilder(ALICE)
                 .withVisitDateTime("2026-12-01 14:00")
