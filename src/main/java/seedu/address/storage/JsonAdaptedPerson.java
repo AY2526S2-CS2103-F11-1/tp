@@ -114,7 +114,7 @@ class JsonAdaptedPerson {
         // Ensures backwards compatibility for old application version
         final Note modelNote;
         if (note == null) {
-            modelNote = new Note("");  // default value
+            modelNote = new Note(""); // default value
         } else {
             if (!Note.isValidNote(note)) {
                 throw new IllegalValueException(Note.MESSAGE_CONSTRAINTS);
