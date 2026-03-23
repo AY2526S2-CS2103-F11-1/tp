@@ -142,34 +142,30 @@ public class HelpWindow extends UiPart<Stage> {
         commandContainer.setPadding(new Insets(10));
         commandContainer.setFillWidth(true);
 
-        addCommandSection("add", "Add a new person to the address book", AddCommand.MESSAGE_USAGE);
-        addCommandSection("edit", "Edit an existing person's details", EditCommand.MESSAGE_USAGE);
-        addCommandSection("delete", "Delete a person by index", DeleteCommand.MESSAGE_USAGE);
-        addCommandSection("list", "List all persons (with optional sorting)", ListCommand.MESSAGE_USAGE);
-        addCommandSection("find", "Find persons by name or tag", FindCommand.MESSAGE_USAGE);
-        addCommandSection("tag", "Add or delete tags for a person", TagCommand.MESSAGE_USAGE);
-        addCommandSection("note", "Edit a person's note", NoteCommand.MESSAGE_USAGE);
-        addCommandSection("clear", "Clear all contacts from the address book",
-                "Usage: " + ClearCommand.COMMAND_WORD);
-        addCommandSection("help", "Open this help window", "Usage: " + HelpCommand.COMMAND_WORD);
-        addCommandSection("exit", "Exit the application", "Usage: " + ExitCommand.COMMAND_WORD);
+        addCommandSection("add", AddCommand.MESSAGE_USAGE);
+        addCommandSection("edit", EditCommand.MESSAGE_USAGE);
+        addCommandSection("delete", DeleteCommand.MESSAGE_USAGE);
+        addCommandSection("list", ListCommand.MESSAGE_USAGE);
+        addCommandSection("find", FindCommand.MESSAGE_USAGE);
+        addCommandSection("tag", TagCommand.MESSAGE_USAGE);
+        addCommandSection("note", NoteCommand.MESSAGE_USAGE);
+        addCommandSection("clear", "Usage: " + ClearCommand.COMMAND_WORD);
+        addCommandSection("help", "Usage: " + HelpCommand.COMMAND_WORD);
+        addCommandSection("exit", "Usage: " + ExitCommand.COMMAND_WORD);
     }
 
     /**
      * Adds a command section to the help container.
      *
      * @param commandName Name of the command
-     * @param description Brief description
      * @param usageAndExamples Usage details and optional examples
      */
-    private void addCommandSection(String commandName, String description, String usageAndExamples) {
+    private void addCommandSection(String commandName, String usageAndExamples) {
         Label nameLabel = createCommandNameLabel(commandName);
-        String[] parsedHelpText = parseHelpText(usageAndExamples);
-        String descriptionText = parsedHelpText[0].isEmpty() ? description : parsedHelpText[0];
-
-        Label descriptionLabel = createDescriptionLabel(descriptionText);
-        Label usageLabel = createCodeBlockLabel(parsedHelpText[1], "#9ad0ff");
-        Label examplesLabel = createCodeBlockLabel(parsedHelpText[2], "#ffd479");
+        ParsedHelpText parsedHelpText = parseHelpText(usageAndExamples);
+        Label descriptionLabel = createDescriptionLabel(parsedHelpText.description());
+        Label usageLabel = createCodeBlockLabel(parsedHelpText.usage(), "#9ad0ff");
+        Label examplesLabel = createCodeBlockLabel(parsedHelpText.examples(), "#ffd479");
 
         VBox commandBox = createCommandBox(nameLabel, descriptionLabel, usageLabel, examplesLabel);
         commandContainer.getChildren().add(commandBox);
@@ -185,35 +181,51 @@ public class HelpWindow extends UiPart<Stage> {
         Label descriptionLabel = new Label(description);
         descriptionLabel.setStyle("-fx-text-fill: #e0e0e0; -fx-font-size: 15;");
         descriptionLabel.setWrapText(true);
+        descriptionLabel.setManaged(!description.isEmpty());
+        descriptionLabel.setVisible(!description.isEmpty());
         return descriptionLabel;
     }
 
-    private String[] parseHelpText(String usageAndExamples) {
-        String usageWithoutExamples = usageAndExamples;
-        String examplesText = "";
+    private record ParsedHelpText(String description, String usage, String examples) {}
 
+    /**
+     * Parses the usage and examples from the command's usage string.
+     *
+     * @param usageAndExamples The full usage string containing both usage and examples.
+     * @return A ParsedHelpText record containing separated description, usage, and examples.
+     */
+    private ParsedHelpText parseHelpText(String usageAndExamples) {
+        ParsedHelpText baseText = splitExamples(usageAndExamples);
+        int parametersIndex = baseText.usage().indexOf("Parameters:");
+
+        if (parametersIndex < 0) {
+            return baseText;
+        }
+
+        String descriptionPrefix = baseText.usage().substring(0, parametersIndex).trim();
+        String usageText = baseText.usage().substring(parametersIndex).trim();
+        String descriptionText = extractDescription(descriptionPrefix);
+
+        return new ParsedHelpText(descriptionText, usageText, baseText.examples());
+    }
+
+    private ParsedHelpText splitExamples(String usageAndExamples) {
         int firstExampleIndex = usageAndExamples.indexOf("\nExample:");
-        if (firstExampleIndex >= 0) {
-            usageWithoutExamples = usageAndExamples.substring(0, firstExampleIndex).trim();
-            examplesText = usageAndExamples.substring(firstExampleIndex + 1).trim();
+        if (firstExampleIndex < 0) {
+            return new ParsedHelpText("", usageAndExamples.trim(), "");
         }
 
-        String descriptionText = "";
-        String usageText = usageWithoutExamples;
-        int parametersIndex = usageWithoutExamples.indexOf("Parameters:");
+        String usageWithoutExamples = usageAndExamples.substring(0, firstExampleIndex).trim();
+        String examplesText = usageAndExamples.substring(firstExampleIndex + 1).trim();
+        return new ParsedHelpText("", usageWithoutExamples, examplesText);
+    }
 
-        if (parametersIndex >= 0) {
-            String descriptionFromUsage = usageWithoutExamples.substring(0, parametersIndex).trim();
-            usageText = usageWithoutExamples.substring(parametersIndex).trim();
-
-            int colonIndex = descriptionFromUsage.indexOf(':');
-            if (colonIndex >= 0 && colonIndex + 1 < descriptionFromUsage.length()) {
-                descriptionFromUsage = descriptionFromUsage.substring(colonIndex + 1).trim();
-            }
-            descriptionText = descriptionFromUsage.replace("\n", " ").trim();
+    private String extractDescription(String descriptionPrefix) {
+        int colonIndex = descriptionPrefix.indexOf(':');
+        if (colonIndex >= 0 && colonIndex + 1 < descriptionPrefix.length()) {
+            descriptionPrefix = descriptionPrefix.substring(colonIndex + 1).trim();
         }
-
-        return new String[] {descriptionText, usageText, examplesText};
+        return descriptionPrefix.replace("\n", " ").trim();
     }
 
     private Label createCodeBlockLabel(String text, String textColor) {
