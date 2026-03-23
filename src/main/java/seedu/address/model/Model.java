@@ -63,6 +63,10 @@ public interface Model {
      */
     void deletePerson(Person target);
 
+    void archivePerson(Person personToArchive);
+
+    void unarchivePerson(Person personToUnarchive);
+
     /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.

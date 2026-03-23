@@ -25,6 +25,7 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final VisitDateTime visitDateTime;
+    private boolean isArchived;
 
     /**
      * Every field must be present and not null.
@@ -38,6 +39,7 @@ public class Person {
         this.note = note;
         this.tags.addAll(tags);
         this.visitDateTime = new VisitDateTime(); // Empty by default
+        this.isArchived = false; // False by default
     }
 
     /**
@@ -53,6 +55,7 @@ public class Person {
         this.note = note;
         this.tags.addAll(tags);
         this.visitDateTime = visitDateTime;
+        this.isArchived = false; // False by default
     }
 
     public Name getName() {
@@ -77,6 +80,14 @@ public class Person {
 
     public VisitDateTime getVisitDateTime() {
         return visitDateTime;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.isArchived = archived;
     }
 
     /**
@@ -122,13 +133,14 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && note.equals(otherPerson.note)
                 && tags.equals(otherPerson.tags)
-                && visitDateTime.equals(otherPerson.visitDateTime);
+                && visitDateTime.equals(otherPerson.visitDateTime)
+                && isArchived == otherPerson.isArchived;
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, note, tags, visitDateTime);
+        return Objects.hash(name, phone, email, address, note, tags, visitDateTime, isArchived);
     }
 
     @Override
@@ -145,6 +157,7 @@ public class Person {
         if (visitDateTime.isPresent()) {
             sb.append(", visitDateTime=").append(visitDateTime);
         }
+        sb.append(", isArchived=").append(isArchived);
 
         sb.append("}");
         return sb.toString();
