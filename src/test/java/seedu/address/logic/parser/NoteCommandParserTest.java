@@ -33,11 +33,15 @@ public class NoteCommandParserTest {
     @Test
     public void parse_missingCompulsoryField_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, NoteCommand.MESSAGE_USAGE);
+        Index targetIndex = INDEX_FIRST_PERSON;
 
         // no parameters
         assertParseFailure(parser, NoteCommand.COMMAND_WORD, expectedMessage);
 
         // no index
         assertParseFailure(parser, NoteCommand.COMMAND_WORD + " " + PREFIX_NOTE + nonEmptyNote, expectedMessage);
+
+        // no note prefix
+        assertParseFailure(parser, String.valueOf(targetIndex.getOneBased()), expectedMessage);
     }
 }
