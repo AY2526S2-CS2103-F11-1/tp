@@ -51,6 +51,7 @@ public class UnarchiveCommand extends Command {
             );
         }
         model.unarchivePerson(personToUnarchive);
+        assert !personToUnarchive.isArchived();
 
         // Refresh view to show only active persons again
         model.updateFilteredPersonList(p -> !p.isArchived());
