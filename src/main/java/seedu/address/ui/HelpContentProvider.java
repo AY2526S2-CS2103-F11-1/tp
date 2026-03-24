@@ -2,8 +2,8 @@ package seedu.address.ui;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Locale;
 import java.util.List;
+import java.util.Locale;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
