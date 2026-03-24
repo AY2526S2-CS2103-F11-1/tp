@@ -46,7 +46,7 @@ public class Person {
      * Constructor with optional visitDateTime field.
      */
     public Person(Name name, Phone phone, Email email, Address address, Note note, Set<Tag> tags,
-                  VisitDateTime visitDateTime) {
+                  VisitDateTime visitDateTime, boolean isArchived) {
         requireAllNonNull(name, phone, email, address, note, tags, visitDateTime);
         this.name = name;
         this.phone = phone;
@@ -55,7 +55,7 @@ public class Person {
         this.note = note;
         this.tags.addAll(tags);
         this.visitDateTime = visitDateTime;
-        this.isArchived = false; // False by default
+        this.isArchived = isArchived; // False by default
     }
 
     public Name getName() {
