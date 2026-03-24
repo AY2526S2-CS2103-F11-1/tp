@@ -120,20 +120,10 @@ public final class AutocompleteProvider {
     }
 
     private static Optional<String> suggestCommandCompletion(String input) {
-        Optional<String> firstMatch = COMMAND_WORDS.stream()
+        return COMMAND_WORDS.stream()
                 .filter(command -> command.startsWith(input))
-                .findFirst();
-
-        if (firstMatch.isEmpty()) {
-            return Optional.empty();
-        }
-
-        String match = firstMatch.get();
-        if (match.equals(input)) {
-            return Optional.empty();
-        }
-
-        return Optional.of(match);
+                .findFirst()
+                .filter(match -> !match.equals(input));
     }
 
     private static Optional<String> suggestArgumentCompletion(String input) {
