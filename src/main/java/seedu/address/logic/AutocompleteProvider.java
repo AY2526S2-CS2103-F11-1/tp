@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
@@ -33,6 +35,7 @@ import seedu.address.logic.commands.TagCommand;
  */
 public final class AutocompleteProvider {
 
+    private static final Logger logger = LogsCenter.getLogger(AutocompleteProvider.class);
     private static final String EMPTY_STRING = "";
 
     private static final List<String> COMMAND_WORDS = List.of(
@@ -146,6 +149,7 @@ public final class AutocompleteProvider {
 
         AutocompletePrefixConfig config = AUTOCOMPLETE_PREFIX_CONFIGS.get(commandWord);
         if (config == null || config.prefixes().isEmpty()) {
+            logger.fine("No autocomplete config for command word: " + commandWord);
             return Optional.empty();
         }
 
@@ -153,6 +157,7 @@ public final class AutocompleteProvider {
         String targetArgs = args;
         if (config.requiresIndex()) {
             if (!hasIndexToken(args)) {
+                logger.fine("Autocomplete withheld because required index token is missing");
                 return Optional.empty();
             }
             targetArgs = removeIndexToken(args);
