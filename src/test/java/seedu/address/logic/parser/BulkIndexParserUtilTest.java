@@ -82,6 +82,36 @@ public class BulkIndexParserUtilTest {
     // Failure Tests
 
     @Test
+    public void parseBulkIndexes_plusSignIndex_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
+                BulkIndexParserUtil.parseBulkIndexes("+1"));
+    }
+
+    @Test
+    public void parseBulkIndexes_signedRange_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
+                BulkIndexParserUtil.parseBulkIndexes("+1-2"));
+    }
+
+    @Test
+    public void parseBulkIndexes_trailingDash_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
+                BulkIndexParserUtil.parseBulkIndexes("1-2-"));
+    }
+
+    @Test
+    public void parseBulkIndexes_invalidCharacterInNumber_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
+                BulkIndexParserUtil.parseBulkIndexes("1-10a"));
+    }
+
+    @Test
+    public void parseBulkIndexes_multipleDashes_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
+                BulkIndexParserUtil.parseBulkIndexes("1-2-3"));
+    }
+
+    @Test
     public void parseBulkIndexes_invalidRangeLeftSide_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
                 BulkIndexParserUtil.parseBulkIndexes("a-1"));

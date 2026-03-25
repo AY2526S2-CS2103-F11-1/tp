@@ -127,6 +127,11 @@ public final class BulkIndexParserUtil {
             throw new ParseException(MESSAGE_INVALID_TOKEN);
         }
 
+        // Validate format first (no signs, only digits)
+        if (!parts[0].matches("\\d+") || !parts[1].matches("\\d+")) {
+            throw new ParseException(MESSAGE_INVALID_TOKEN);
+        }
+
         int start;
         int end;
 
@@ -134,9 +139,7 @@ public final class BulkIndexParserUtil {
             start = Integer.parseInt(parts[0]);
             end = Integer.parseInt(parts[1]);
         } catch (NumberFormatException e) {
-            if (!parts[0].matches("\\d+") || !parts[1].matches("\\d+")) {
-                throw new ParseException(MESSAGE_INVALID_TOKEN);
-            }
+            // Only possible case now = overflow
             throw new ParseException(MESSAGE_RANGE_TOO_LARGE);
         }
 
@@ -167,20 +170,24 @@ public final class BulkIndexParserUtil {
     private static void parseSingleToken(String token, Set<Integer> indexSet)
             throws ParseException {
 
+        // Validate format first (digits only)
+        if (!token.matches("\\d+")) {
+            throw new ParseException(MESSAGE_INVALID_TOKEN);
+        }
+
         int value;
 
         try {
             value = Integer.parseInt(token);
         } catch (NumberFormatException e) {
-            if (!token.matches("\\d+")) {
-                throw new ParseException(MESSAGE_INVALID_TOKEN);
-            }
+            // Only possible case now = overflow
             throw new ParseException(MESSAGE_INDEX_TOO_LARGE);
         }
 
         if (value <= 0) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
+
         indexSet.add(value);
     }
 }
