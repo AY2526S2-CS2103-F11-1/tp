@@ -3,7 +3,6 @@
 skinparam ArrowColor LOGIC_COLOR
 skinparam BackGroundColor #FFFFFF
 
-autonumber
 
 box "Logic" #LightBlue
 participant ":LogicManager" as LogicManager LOGIC_COLOR
