@@ -19,6 +19,7 @@ import seedu.address.model.person.VisitContainsDatePredicate;
  * Parses input arguments and creates a new FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
+    private static final String KEYWORD_TODAY = "today";
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
@@ -48,7 +49,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             String dateValue = argMultimap.getValue(PREFIX_DATE).get().trim();
             LocalDate targetDate;
 
-            if (dateValue.equalsIgnoreCase("today")) {
+            if (dateValue.equalsIgnoreCase(KEYWORD_TODAY)) {
                 targetDate = LocalDate.now();
             } else {
                 targetDate = ParserUtil.parseDate(dateValue);
