@@ -36,7 +36,7 @@ create NoteCommand
 NoteCommandParser -> NoteCommand
 activate NoteCommand
 
-NoteCommand --> NoteCommandParser : n
+NoteCommand --> NoteCommandParser
 deactivate NoteCommand
 
 NoteCommandParser --> AddressBookParser : n
