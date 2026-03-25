@@ -1,9 +1,13 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.TagContainsPredicate;
+import seedu.address.model.person.VisitContainsDatePredicate;
 
 public class FindCommandParserTest {
 
@@ -49,4 +54,32 @@ public class FindCommandParserTest {
     }
 
 
+    @Test
+    public void parse_datePresent_returnsFindCommand() throws Exception {
+        // Test "today" keyword
+        FindCommand expectedFindCommand = new FindCommand(
+                new VisitContainsDatePredicate(LocalDate.now(), LocalDate.now()));
+        assertParseSuccess(parser, " " + PREFIX_DATE + "today", expectedFindCommand);
+
+        // Test specific date
+        LocalDate target = LocalDate.of(2026, 12, 25);
+        expectedFindCommand = new FindCommand(new VisitContainsDatePredicate(target, target));
+        assertParseSuccess(parser, " " + PREFIX_DATE + "2026-12-25", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_dateRangePresent_returnsFindCommand() throws Exception {
+        LocalDate start = LocalDate.of(2026, 1, 1);
+        LocalDate end = LocalDate.of(2026, 1, 31);
+        FindCommand expectedFindCommand = new FindCommand(new VisitContainsDatePredicate(start, end));
+        assertParseSuccess(parser, " " + PREFIX_START_DATE + "2026-01-01 "
+                + PREFIX_END_DATE + "2026-01-31", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_invalidDateRange_throwsParseException() {
+        // Start date after End date
+        assertParseFailure(parser, " " + PREFIX_START_DATE + "2026-12-31 "
+                + PREFIX_END_DATE + "2026-01-01", "Start date cannot be after end date!");
+    }
 }
