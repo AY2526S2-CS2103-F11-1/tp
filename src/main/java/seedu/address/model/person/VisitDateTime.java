@@ -22,7 +22,7 @@ public class VisitDateTime {
     public static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a",
             Locale.US);
 
-    public final LocalDateTime value;
+    private final LocalDateTime value;
     private final String originalValue;
 
     /**
@@ -75,6 +75,13 @@ public class VisitDateTime {
             return "";
         }
         return value.format(DISPLAY_FORMATTER);
+    }
+
+    /**
+     * Returns the LocalDateTime value.
+     */
+    public LocalDateTime getValue() {
+        return value;
     }
 
     @Override

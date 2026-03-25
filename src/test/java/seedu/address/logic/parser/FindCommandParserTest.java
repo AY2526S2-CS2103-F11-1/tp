@@ -88,4 +88,13 @@ public class FindCommandParserTest {
         assertParseFailure(parser, " " + PREFIX_START_DATE + "2026-01-01",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_multiplePrefixes_throwsParseException() {
+        // Name and Date search
+        assertParseFailure(parser, " n/John d/2026-01-01", "Only one search type allowed.");
+
+        // Name and Date Range search
+        assertParseFailure(parser, " n/John sd/2026-01-01 ed/2026-01-02", "Only one search type allowed.");
+    }
 }

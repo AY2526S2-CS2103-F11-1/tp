@@ -30,11 +30,10 @@ public class VisitContainsDatePredicate implements Predicate<Person> {
             return false;
         }
 
-        LocalDateTime dateTimeValue = visit.value;
+        LocalDateTime dateTimeValue = visit.getValue();
         LocalDate visitDate = dateTimeValue.toLocalDate();
 
-        return (visitDate.isEqual(startDate) || visitDate.isAfter(startDate))
-                && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate));
+        return !visitDate.isBefore(startDate) && !visitDate.isAfter(endDate);
     }
 
     @Override
