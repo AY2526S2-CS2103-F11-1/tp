@@ -196,7 +196,7 @@ public class ModelManager implements Model {
             boolean p1HasVisit = p1.getVisitDateTime().isPresent();
             boolean p2HasVisit = p2.getVisitDateTime().isPresent();
 
-            // both have visit → sort by visit date
+            // both have visit, sort by visit date
             if (p1HasVisit && p2HasVisit) {
                 return p1.getVisitDateTime().getValue()
                         .compareTo(p2.getVisitDateTime().getValue());
