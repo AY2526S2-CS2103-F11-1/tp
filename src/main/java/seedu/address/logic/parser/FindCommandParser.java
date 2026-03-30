@@ -60,10 +60,18 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         // only allow exactly one search mode
         int modeCount = 0;
-        if (hasName) { modeCount++; }
-        if (hasTag) { modeCount++; }
-        if (hasDate) { modeCount++; }
-        if (hasRange) { modeCount++; }
+        if (hasName) {
+            modeCount++;
+        }
+        if (hasTag) {
+            modeCount++;
+        }
+        if (hasDate) {
+            modeCount++;
+        }
+        if (hasRange) {
+            modeCount++;
+        }
 
         // reject for multiple modes are used or no valid mode
         if (modeCount > 1) {

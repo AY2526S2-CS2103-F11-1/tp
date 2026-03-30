@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INDEX_TOO_LARGE;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -9,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -29,14 +29,78 @@ public class ParserUtil {
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     *
+     * @throws ParseException if the specified index is invalid (not a non-zero unsigned integer)
+     *         or if the value exceeds the allowable integer range.
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
+
+        // First check format (digits only)
+        if (!trimmedIndex.matches("\\d+")) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
-        return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+
+        int value;
+        try {
+            value = Integer.parseInt(trimmedIndex);
+        } catch (NumberFormatException e) {
+            throw new ParseException(MESSAGE_INDEX_TOO_LARGE);
+        }
+
+        if (value <= 0) {
+            throw new ParseException(MESSAGE_INVALID_INDEX);
+        }
+
+        return Index.fromOneBased(value);
+    }
+
+    /**
+     * Parses {@code rawInput} into a single {@code Index} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * Ensures that the input contains exactly one token representing an index. Inputs that are empty, contain multiple
+     * tokens, or are not numeric will result in a {@code ParseException} with the provided {@code usageMessage}.
+     * Delegates to {@link #parseIndex(String)} for validation of the index value.
+     *
+     * @throws ParseException if the input format is invalid or does not represent a valid index.
+     */
+    public static Index parseSingleIndexOrThrow(String rawInput, String usageMessage)
+            throws ParseException {
+
+        String trimmed = rawInput.trim();
+
+        // Case 1: missing index
+        if (trimmed.isEmpty()) {
+            throw new ParseException(usageMessage);
+        }
+
+        String[] parts = trimmed.split("\\s+");
+
+        // Case 2: more than one token
+        if (parts.length != 1) {
+            throw new ParseException(usageMessage);
+        }
+
+        String token = parts[0];
+
+        // Case 3: not number-like (reject abc, -, etc.)
+        if (!token.matches("-?\\d+")) {
+            throw new ParseException(usageMessage);
+        }
+
+        try {
+            return parseIndex(token);
+        } catch (ParseException pe) {
+            String msg = pe.getMessage();
+
+            // Preserve index specific errors
+            if (msg.equals(MESSAGE_INVALID_INDEX)
+                    || msg.equals(seedu.address.logic.Messages.MESSAGE_INDEX_TOO_LARGE)) {
+                throw pe;
+            }
+
+            throw new ParseException(usageMessage, pe);
+        }
     }
 
     /**
