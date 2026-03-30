@@ -203,10 +203,14 @@ public class ModelManager implements Model {
             }
 
             // only p1 has visit, p1 first
-            if (p1HasVisit) return -1;
+            if (p1HasVisit) {
+                return -1;
+            }
 
             // only p2 has visit, p2 first
-            if (p2HasVisit) return 1;
+            if (p2HasVisit) {
+                return 1;
+            }
 
             // both no visit, sort by name
             return p1.getName().fullName.compareToIgnoreCase(
