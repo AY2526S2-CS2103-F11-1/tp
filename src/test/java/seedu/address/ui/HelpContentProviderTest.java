@@ -310,6 +310,38 @@ public class HelpContentProviderTest {
         assertTrue(ex.getCause() instanceof AssertionError);
     }
 
+    @Test
+    public void parseHelpText_compactFormatWithExample_parsedCorrectly() throws Exception {
+        // EP: compact "command: description" with an example should split and synthesize usage.
+        HelpContentProvider.ParsedHelpText parsed = invokeParseHelpText(
+                "clear: Clears all entries from the address book.\n"
+                        + "Example: clear");
+
+        assertEquals("Clears all entries from the address book.", parsed.description());
+        assertEquals("Usage: clear", parsed.usage());
+        assertEquals("Example: clear", parsed.examples());
+    }
+
+    @Test
+    public void parseHelpText_plainCommandText_returnsBaseTextUnchanged() throws Exception {
+        // Covers fallback path where no Parameters/Usage/compact-colon markers are present.
+        HelpContentProvider.ParsedHelpText parsed = invokeParseHelpText("clear");
+
+        assertEquals("", parsed.description());
+        assertEquals("clear", parsed.usage());
+        assertEquals("", parsed.examples());
+    }
+
+    @Test
+    public void parseHelpText_colonAtStart_returnsBaseTextUnchanged() throws Exception {
+        // BVA: colon at index 0 should not be treated as compact "command: description" format.
+        HelpContentProvider.ParsedHelpText parsed = invokeParseHelpText(":clear");
+
+        assertEquals("", parsed.description());
+        assertEquals(":clear", parsed.usage());
+        assertEquals("", parsed.examples());
+    }
+
     private static String invokeExtractDescription(String input) throws Exception {
         Method method = HelpContentProvider.class.getDeclaredMethod("extractDescription", String.class);
         method.setAccessible(true);
