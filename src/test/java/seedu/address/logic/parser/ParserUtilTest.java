@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.MESSAGE_INDEX_TOO_LARGE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -320,5 +321,11 @@ public class ParserUtilTest {
     public void parseIndex_negative_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
                 ParserUtil.parseIndex("-1"));
+    }
+
+    @Test
+    public void parseIndex_indexTooLarge_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INDEX_TOO_LARGE, () ->
+                ParserUtil.parseIndex("999999999999999999999999"));
     }
 }
