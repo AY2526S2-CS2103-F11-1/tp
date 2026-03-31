@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Stores and manages navigation through the history of commands entered by the
- * user.
+ * Stores and manages navigation through the history of commands entered by the user.
  */
 public class CommandHistory {
 
@@ -17,14 +16,21 @@ public class CommandHistory {
      * past the newest entry so that subsequent UP presses start from the
      * most-recently added command.
      *
-     * Blank commands are silently ignored.
+     * Blank commands are silently ignored. Consecutive identical commands are
+     * also skipped to avoid duplicates in the history.
      */
     public void add(String command) {
         if (command == null || command.isBlank()) {
             return;
         }
+
+        if (isDuplicateOfLastCommand(command)) {
+            resetPointerToEnd();
+            return;
+        }
+
         history.add(command);
-        pointer = history.size();
+        resetPointerToEnd();
     }
 
     /**
@@ -40,6 +46,7 @@ public class CommandHistory {
             return "";
         }
         pointer = Math.max(0, pointer - 1);
+        assert pointer < history.size() : "Pointer must point to valid entry in history";
         return history.get(pointer);
     }
 
@@ -59,6 +66,7 @@ public class CommandHistory {
         if (pointer >= history.size()) {
             return "";
         }
+        assert 0 <= pointer && pointer < history.size() : "Pointer must be in valid range";
         return history.get(pointer);
     }
 
@@ -67,5 +75,34 @@ public class CommandHistory {
      */
     public int size() {
         return history.size();
+    }
+
+    /**
+     * Checks whether the given command is identical to the last command in history.
+     */
+    private boolean isDuplicateOfLastCommand(String command) {
+        String lastCommand = getLastCommand();
+        return lastCommand != null && lastCommand.equals(command);
+    }
+
+    /**
+     * Retrieves the most recently added command.
+     *
+     * @return the last command in history, or {@code null} if history is empty.
+     */
+    private String getLastCommand() {
+        if (history.isEmpty()) {
+            return null;
+        }
+        assert !history.isEmpty() : "getLastCommand assumes non-empty history";
+        return history.get(history.size() - 1);
+    }
+
+    /**
+     * Resets the navigation pointer to the end of the history, preparing it for
+     * the next navigation sequence.
+     */
+    private void resetPointerToEnd() {
+        pointer = history.size();
     }
 }
