@@ -209,6 +209,13 @@ public class AutocompleteProviderTest {
         assertEquals("add   n/", AutocompleteProvider.suggestCompletion("add   n").orElseThrow());
     }
 
+    @Test
+    public void suggestCompletion_addWithPrefixAtStart_suggestsNextPrefix() {
+        // Boundary Value: prefix token at very start of args (position 0)
+        assertEquals("add p/", AutocompleteProvider.suggestCompletion("add p").orElseThrow());
+        assertEquals("add n/Amy p/", AutocompleteProvider.suggestCompletion("add n/Amy ").orElseThrow());
+    }
+
     // EP Group: Find Command Modes
 
     @Test
