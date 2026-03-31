@@ -222,4 +222,16 @@ public class BulkIndexParserUtilTest {
         assertThrows(ParseException.class, MESSAGE_INVALID_TOKEN, () ->
                 BulkIndexParserUtil.parseBulkIndexes("1 a 3", USAGE_MESSAGE));
     }
+
+    @Test
+    public void parseSingleIndexOrThrow_multipleTokens_throwsParseException() {
+        assertThrows(ParseException.class, "usage", () ->
+                ParserUtil.parseSingleIndexOrThrow("1 2", "usage"));
+    }
+
+    @Test
+    public void parseSingleIndexOrThrow_invalidFormat_throwsParseException() {
+        assertThrows(ParseException.class, "usage", () ->
+                ParserUtil.parseSingleIndexOrThrow("abc", "usage"));
+    }
 }
