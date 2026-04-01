@@ -26,6 +26,7 @@ import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_LONG_NAME = "A".repeat(Name.MAX_LENGTH + 1);
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_ADDRESS_WITH_SLASH = "12/34 Main Street";
@@ -73,7 +74,11 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_invalidValue_throwsParseException() {
+        // Equivalent Partitioning (invalid): bad character set
         assertThrows(ParseException.class, () -> ParserUtil.parseName(INVALID_NAME));
+
+        // Boundary Value Analysis: exceeds max name length by 1
+        assertThrows(ParseException.class, () -> ParserUtil.parseName(INVALID_LONG_NAME));
     }
 
     @Test

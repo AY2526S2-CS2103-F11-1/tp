@@ -36,7 +36,6 @@ public class AddressTest {
         assertFalse(Address.isValidAddress(INVALID_OVER_MAX_LENGTH_ADDRESS)); // exceeds max length
 
         // Equivalent Partitioning (valid): common real-world address formats
-        // valid addresses
         assertTrue(Address.isValidAddress("Blk 456, Den Road, #01-355"));
         assertTrue(Address.isValidAddress("Leng Inc, 1234 Market St, San Francisco CA 2349879")); // long address
         assertTrue(Address.isValidAddress("One George Street (Tower A), #15-01"));
