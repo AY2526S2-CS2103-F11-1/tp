@@ -35,7 +35,12 @@ public class ParserUtilTest {
     private static final String INVALID_VISIT_DATE_TIME = "2026-13-40 25:99";
 
     private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "123456";
+    private static final String VALID_PHONE = "91234567";
+    private static final String VALID_SPACED_PHONE = "9123 4567";
+    private static final String VALID_LANDLINE_PHONE = "61234567";
+    private static final String VALID_EMERGENCY_PHONE = "995";
+    private static final String VALID_TOLL_FREE_PHONE = "1800 123 4567";
+    private static final String VALID_TOLL_FREE_PHONE_NO_SPACE = "18001234567";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_NOTE = "Meet client at lobby.";
@@ -108,6 +113,21 @@ public class ParserUtilTest {
     public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
         Phone expectedPhone = new Phone(VALID_PHONE);
         assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE));
+
+        Phone expectedSpacedPhone = new Phone(VALID_SPACED_PHONE);
+        assertEquals(expectedSpacedPhone, ParserUtil.parsePhone(VALID_SPACED_PHONE));
+
+        Phone expectedLandlinePhone = new Phone(VALID_LANDLINE_PHONE);
+        assertEquals(expectedLandlinePhone, ParserUtil.parsePhone(VALID_LANDLINE_PHONE));
+
+        Phone expectedEmergencyPhone = new Phone(VALID_EMERGENCY_PHONE);
+        assertEquals(expectedEmergencyPhone, ParserUtil.parsePhone(VALID_EMERGENCY_PHONE));
+
+        Phone expectedTollFree = new Phone(VALID_TOLL_FREE_PHONE);
+        assertEquals(expectedTollFree, ParserUtil.parsePhone(VALID_TOLL_FREE_PHONE));
+
+        Phone expectedTollFreeNoSpace = new Phone(VALID_TOLL_FREE_PHONE_NO_SPACE);
+        assertEquals(expectedTollFreeNoSpace, ParserUtil.parsePhone(VALID_TOLL_FREE_PHONE_NO_SPACE));
     }
 
     @Test
