@@ -1,7 +1,9 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -109,6 +111,36 @@ public class Person {
 
         return otherPerson != null
                 && otherPerson.getName().equals(getName());
+    }
+
+    public boolean hasVisitDateTime() {
+        return getVisitDateTime().isPresent();
+    }
+
+    public LocalDateTime getVisitDateTimeValue() {
+        return getVisitDateTime().getValue();
+    }
+
+    public int compareByName(Person other) {
+        requireNonNull(other);
+        return this.getName().compareToIgnoreCase(other.getName());
+    }
+
+    public int compareByVisitThenName(Person other) {
+        requireNonNull(other);
+
+        boolean thisHasVisit = this.hasVisitDateTime();
+        boolean otherHasVisit = other.hasVisitDateTime();
+
+        if (thisHasVisit && otherHasVisit) {
+            return this.getVisitDateTimeValue()
+                    .compareTo(other.getVisitDateTimeValue());
+        }
+
+        if (thisHasVisit) return -1;
+        if (otherHasVisit) return 1;
+
+        return this.compareByName(other);
     }
 
     /**

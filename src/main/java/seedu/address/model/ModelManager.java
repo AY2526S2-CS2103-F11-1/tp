@@ -185,37 +185,11 @@ public class ModelManager implements Model {
     }
 
     private Comparator<Person> getNameComparator() {
-        return Comparator.comparing(
-                p -> p.getName().fullName,
-                String.CASE_INSENSITIVE_ORDER
-        );
+        return Person::compareByName;
     }
 
     private Comparator<Person> getVisitComparator() {
-        return (p1, p2) -> {
-            boolean p1HasVisit = p1.getVisitDateTime().isPresent();
-            boolean p2HasVisit = p2.getVisitDateTime().isPresent();
-
-            // both have visit, sort by visit date
-            if (p1HasVisit && p2HasVisit) {
-                return p1.getVisitDateTime().getValue()
-                        .compareTo(p2.getVisitDateTime().getValue());
-            }
-
-            // only p1 has visit, p1 first
-            if (p1HasVisit) {
-                return -1;
-            }
-
-            // only p2 has visit, p2 first
-            if (p2HasVisit) {
-                return 1;
-            }
-
-            // both no visit, sort by name
-            return p1.getName().fullName.compareToIgnoreCase(
-                    p2.getName().fullName);
-        };
+        return Person::compareByVisitThenName;
     }
 
     @Override
