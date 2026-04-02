@@ -69,27 +69,38 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Opens the Help window.
+
+If the Help window is already open, the command focuses on that window instead of opening a new one.
 
 ![help message](images/helpMessage.png)
 
 Format: `help`
+
+Examples:
+* `help`
+* `help 123` (extra text is ignored)
 
 
 ### Adding a person: `add`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [nt/NOTE] [v/VISIT_DATE_TIME] [t/TAG]…`
 
 <box type="tip" seamless>
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
+* `n/`, `p/`, `e/`, and `a/` are compulsory and must each appear exactly once.
+* `nt/` and `v/` are optional and can each appear at most once.
+* `v/` must use the format `yyyy-MM-dd HH:mm` (e.g., `2026-12-01 14:00`).
+* You cannot add a person whose name already exists in the address book.
+
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Betsy Crowe p/1234567 e/betsycrowe@example.com a/Newgate Prison nt/Prefers email v/2026-12-01 14:00 t/friend t/colleague`
 
 ### Listing all persons : `list`
 
