@@ -36,8 +36,6 @@ public class ParserUtil {
         String trimmedIndex = oneBasedIndex.trim();
 
         // First check format (digits only)
-        // Allow "-?\\d+" so negative numbers reach parseIndex().
-        // This lets us return a specific "invalid index" error instead of a generic format error.
         if (!trimmedIndex.matches("\\d+")) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
@@ -85,6 +83,9 @@ public class ParserUtil {
         String token = parts[0];
 
         // Case 3: not number-like (reject abc, -, etc.)
+        // Accepts optional leading '-' to allow negative input (e.g. "-1").
+        // Actual validation (rejecting negatives/zero) is handled in parseIndex().
+        // This lets us return a specific "invalid index" error instead of a generic format error.
         if (!token.matches("-?\\d+")) {
             throw new ParseException(usageMessage);
         }
