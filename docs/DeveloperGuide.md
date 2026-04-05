@@ -298,7 +298,6 @@ CareSync helps social service workers keep track of their clients and service co
 details as well as allow them to easily track upcoming visits with the various families.
 
 
-
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
@@ -319,10 +318,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *` | user | sort contacts by name or ID | find contacts easily |
 | `* *` | user | mark a contact’s status (e.g. stable, urgent) | prioritise my work |
 | `* *` | user | add a visit note to a contact | remember the purpose of the visit |
+| `* *` | user | pin contacts | identify important contacts easily |
 | `* *` | user | reuse past commands | execute commands faster |
+| `* *` | user | autocomplete commands | execute commands faster |
 | `* *` | user | undo commands | undo any wrong changes  |
 | `* *` | expert user | add aliases to commands | execute commands faster |
 | `* *` | new user | see sample commands | know valid command formats |
+| `*` | expert user | combine commands | execute commands efficiently |
 | `*` | user | add a specific visit location | quickly reference where the visit takes place |
 | `*` | user | set visit type (e.g. consultation, remote) | understand the nature of the visit |
 | `*` | user | specify the visit duration | plan my time realistically |
@@ -333,7 +335,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*` | new user | transfer my contact details from my phone’s contact list to CareSync | transition to using CareSync easily |
 
 
-*{More to be added}*
+*{More may be added in the future}*
 
 ### Use cases
 
@@ -510,7 +512,7 @@ If successful, the contact will be permanently removed from CareSync.
 
       Use case resumes from step 4.
 
-*{More to be added}*
+*{More may be added in the future}*
 
 ### Non-Functional Requirements
 
@@ -533,7 +535,7 @@ admin commands) should be able to accomplish most of the tasks faster using comm
 14. The system architecture should allow future expansion of features (e.g., additional
 commands or data fields) without requiring major restructuring of existing components.
 
-*{More to be added}*
+*{More may be added in the future}*
 
 ### Glossary
 
@@ -562,42 +564,202 @@ testers are expected to do more *exploratory* testing.
 
 ### Launch and shutdown
 
-1. Initial launch
+!!**Initial launch**!!
 
-   1. Download the jar file and copy into an empty folder
+Steps:
+1. Download the latest [jar file](https://github.com/AY2526S2-CS2103-F11-1/tp/releases) and copy into an empty folder.
+2. Double-click the jar file.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+Expected:
+- Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+!!**Saving window preferences**!!
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+Steps:
+1. Resize the window to an optimum size.
+2. Move the window to a different location.
+3. Close the window.
+4. Re-launch the app by double-clicking the jar file.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+Expected:
+- The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Viewing help
 
-### Deleting a person
+*Prerequisites:*
+- CareSync is running.
 
-1. Deleting a person while all persons are being shown
+!!**Positive Test Case 1: Run the help command**!!
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+Steps:
+1. Run `help`
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+Expected:
+- Help window opens.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+!!**Positive Test Case 2: Run the help command with existing help window**!!
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+Steps:
+1. Run `help`
+2. Minimise the help window.
+3. Run `help` again.
 
-1. _{ more test cases …​ }_
+Expected:
+- Exisiting help window is focused.
+
+!!**Positive Test Case 3: Run the help command with unknown parameters**!!
+
+Steps:
+1. Run `help 123`
+
+Expected:
+- Help window opens.
+
+### Adding a contact
+
+*Prerequisites:*
+- CareSync is running.
+- List all contacts using the `list` command.
+
+!!**Positive Test Case 1: Adding with only compulsory fields**!!
+
+Steps:
+1. Run `add n/Hugo p/96543218 e/hugo@example.com a/Hugo street, block 123, #01-01`
+
+Expected:
+- Message: `New contact added: Hugo; Phone: ...`
+- Contact is added to the list.
+- Contact information is as specified.
+- List index increases accordingly.
+
+!!**Positive Test Case 2: Adding with all fields**!!
+
+Steps:
+1. Run `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 nt/Needs financial support v/2026-12-01 14:00 t/caseid6`
+
+Expected:
+- Message: `New contact added: John Doe; Phone: ...`
+- Contact is added to the list.
+- Contact information is as specified.
+- List index increases accordingly.
+
+!!**Positive Test Case 3: Adding with duplicate fields (except name)**!!
+
+Steps:
+1. Run `add n/Alice1 p/88883333 e/alice@example.com a/Alice street, block 123, #01-01 nt/Needs financial support v/2026-12-01 14:00 t/caseid6`
+2. Run `add n/Alice2 p/88883333 e/alice@example.com a/Alice street, block 123, #01-01 nt/Needs financial support v/2026-12-01 14:00 t/caseid6`
+
+Expected:
+- Message: `New contact added: Alice1; Phone: ...`
+- `Alice1` is added to the list.
+- Message: `New contact added: Alice2; Phone: ...`
+- `Alice2` is added to the list.
+- Contact information are as specified.
+- List index increases accordingly.
+
+!!**Negative Test Case 1: Adding with duplicate name**!!
+
+Steps:
+1. Run `add n/Alicia p/80015678 e/alicia@example.com a/Alicia street, block 123, #01-01`
+1. Run the same command again.
+
+Expected:
+- Message: `This contact already exists in the address book`
+- No contact is added.
+
+!!**Negative Test Case 2: Adding with invalid name**!!
+
+Steps:
+1. Run `add n/Bob- p/92225430 e/bob@example.com a/Bob street, block 123, #01-01`
+
+Expected:
+- Message: `Names should only contain alphanumeric characters ...`
+- No contact is added.
+
+!!**Negative Test Case 3: Adding with invalid phone**!!
+
+Steps:
+1. Run `add n/Bob p/123 e/bob@example.com a/Bob street, block 123, #01-01`
+
+Expected:
+- Message: `Phone numbers should be an ...`
+- No contact is added.
+
+!!**Negative Test Case 4: Adding with invalid email**!!
+
+Steps:
+1. Run `add n/Bob p/91234567 e/bemail a/Bob street, block 123, #01-01`
+
+Expected:
+- Message: `Emails should be of the format ...`
+- No contact is added.
+
+!!**Negative Test Case 5: Adding with invalid address**!!
+
+Steps:
+1. Run `add n/Bob p/91234567 e/bob@example.com a/Bob street/block123`
+
+Expected:
+- Message: `Addresses should not be blank ...`
+- No contact is added.
+
+!!**Negative Test Case 6: Adding with invalid note**!!
+
+Steps:
+1. Run `add n/Bob p/91234567 e/bob@example.com a/Bob street, block 123, #01-01 nt/notes+-`
+
+Expected:
+- Message: `Notes should be up to ...`
+- No contact is added.
+
+!!**Negative Test Case 7: Adding with invalid visit date and time**!!
+
+Steps:
+1. Run `add n/Bob p/91234567 e/bob@example.com a/Bob street, block 123, #01-01 v/2026-12-32 12:00`
+
+Expected:
+- Message: `Visit date and time must be a valid ...`
+- No contact is added.
+
+!!**Negative Test Case 8: Adding with invalid tag**!!
+
+Steps:
+1. Run `add n/Bob p/91234567 e/bob@example.com a/Bob street, block 123, #01-01 t/fr!end`
+
+Expected:
+- Message: `Tag names should be alphanumeric ...`
+- No contact is added.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+!!**Positive Test Case 1: Missing data file**!!
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+Steps:
+1. Navigate to the `data` folder.
+2. Delete `addressbook.json` if it exists.
+3. Launch CareSync with `java -jar CareSync.jar`
 
-1. _{ more test cases …​ }_
+Expected:
+- CareSync creates a new `addressbook.json` file with the default sample data.
+
+!!**Positive Test Case 2: Corrupted data file**!!
+
+Steps:
+1. Navigate to the `data` folder.
+2. Open `addressbook.json`
+3. Modify the file such that the data file is now invalid.
+4. Save the file.
+5. Launch CareSync with `java -jar CareSync.jar`
+
+Expected:
+- CareSync discards all data and starts with an empty data file.
+
+!!**Positive Test Case 3: Data saved after commands**!!
+
+Steps:
+1. Launch CareSync with `java -jar CareSync.jar`
+2. Add, edit or delete a contact using the `add`, `edit`, `delete` commands respectively.
+3. Close CareSync.
+
+Expected:
+- Changes are saved correctly in `addressbook.json`
