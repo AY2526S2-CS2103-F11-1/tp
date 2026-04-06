@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_TAGS;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -97,7 +98,7 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         // if the set size smaller than the input size, then means a duplicate happened
         if (tagSet.size() < tagCollection.size()) {
-            throw new ParseException("Duplicate tags detected! Tag names are case-insensitive");
+            throw new ParseException(MESSAGE_DUPLICATE_TAGS);
         }
 
         return Optional.of(tagSet);
