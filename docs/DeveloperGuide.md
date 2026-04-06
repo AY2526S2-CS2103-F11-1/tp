@@ -724,8 +724,6 @@ Steps:
 1. Run `add n/Bob p/91234567 e/bob@example.com a/Bob street, block 123, #01-01 t/fr!end`
 
 Expected:
-- Message: `Tag names should be alphanumeric ...`
-- No contact is added.
 - Command fails with tag constraint message.
 
 ### Archiving a contact : `archive`
@@ -983,6 +981,61 @@ Steps:
 
 Expected:
 - Command fails with invalid displayed index message.
+
+### Managing tags for a contact : `tag`
+
+*Prerequisites:*
+- At least one contact exists.
+
+!!**Positive Test Case 1: Add one tag**!!
+
+Steps:
+1. Run `tag 1 at/client`
+
+Expected:
+- Command succeeds and `client` tag is added.
+
+!!**Positive Test Case 2: Delete one tag**!!
+
+Steps:
+1. Ensure contact 1 has `client` tag.
+2. Run `tag 1 dt/client`
+
+Expected:
+- Command succeeds and `client` tag is removed.
+
+!!**Positive Test Case 3: Add and delete in one command**!!
+
+Steps:
+1. Run `tag 1 at/family dt/friend`
+
+Expected:
+- Command succeeds and both tag updates are applied.
+
+!!**Negative Test Case 1: No `at/` and `dt/` provided**!!
+
+Steps:
+1. Run `tag 1`
+
+Expected:
+- Command fails with message: `Tag to add or delete must be provided.`
+
+!!**Negative Test Case 2: Add existing tag**!!
+
+Steps:
+1. Ensure contact 1 already has `friends`.
+2. Run `tag 1 at/friends`
+
+Expected:
+- Command fails with duplicate-tag-on-person message.
+
+!!**Negative Test Case 3: Delete non-existent tag**!!
+
+Steps:
+1. Run `tag 1 dt/notpresent`
+
+Expected:
+- Command fails with non-existent-tag message.
 
 
 ### Saving data
