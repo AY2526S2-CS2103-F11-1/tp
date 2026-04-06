@@ -502,12 +502,14 @@ Action     | Format                                                             
   - Max length: 80<br><br>
 - **p/PHONE_NUMBER**: Refers to the phone number of the contact.
   - Can only contain numeric characters, whitespaces (` `) and certain special characters (`+-`)
+  - Must contain at least one numeric character.
   - Max length: 15<br><br>
 - **e/EMAIL**: Refers to the email address of the contact.
   - `local@domain` pattern
   - Max length: 254<br><br>
 - **a/ADDRESS**: Refers to the address of the contact.
   - Can only contain alphanumeric characters, whitespaces (` `) and certain special characters (`,.#'()-`)
+  - Must contain at least one non-whitespace character.
   - Max length: 120<br><br>
 - **nt/NOTE**: Refers to the note of the contact.
   - The 1st character **must be a valid non whitespace (` `) character**
