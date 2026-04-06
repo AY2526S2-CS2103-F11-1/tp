@@ -132,7 +132,7 @@ Format: `help`
 Examples:
 * `help`
 
-![help message](images/helpMessage.png)
+![help message](images/ug_helpMessage.png)
 
 ### Adding a contact: `add`
 
@@ -153,6 +153,8 @@ Examples:
 * `add n/Betsy Crowe p/61234567 e/betsycrowe@example.com a/Newgate Road #02-01`
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 nt/Needs financial support v/2026-12-01 14:00`
 
+![add](images/ug_add.png)
+
 ### Archiving a contact : `archive`
 Archives a contact identified by the index number shown in the current list.
 
@@ -165,6 +167,8 @@ Format: `archive INDEX`
 Examples:
 * `archive 1`
 * `find n/Alex` followed by `archive 1` archives the 1st contact in the find results.
+
+![archive](images/ug_archive.png)
 
 ### Listing all contacts : `list`
 
@@ -197,6 +201,8 @@ Examples:
 * `list s/name`
 * `list s/visit`
 
+![list](images/ug_list.png)
+
 ### Listing archived contacts : `list-archive`
 
 Shows a list of all **archived** contacts in CareSync.
@@ -209,6 +215,8 @@ Format: `list-archive`
 
 Examples:
 * `list-archive`
+
+![list-archive](images/ug_list-archive.png)
 
 ### Editing a contact : `edit`
 
@@ -227,9 +235,11 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st contact to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd contact to be `Betsy Crower` and clears all existing tags.
 
+![edit](images/ug_edit.png)
+
 ### Locating contacts by specified field: `find`
 
-Finds contacts whose information matches the provided search criteria.
+Finds **unarchived** contacts whose information matches the provided search criteria.
 
 Format:
 - By name: `find n/KEYWORD [MORE_KEYWORDS]…`
@@ -266,6 +276,8 @@ Examples:
 * `find d/today` returns all contacts with visits scheduled for today.
 * `find sd/2026-01-01 ed/2026-04-30` returns all contacts with visits between 1 January 2026 and 30 April 2026 (inclusive).
 
+![find](images/ug_find.png)
+
 ### Adding note to a contact : `note`
 
 Adds, replaces, or clears a note for the specified contact.
@@ -282,6 +294,8 @@ Format: `note INDEX nt/NOTE`
 Examples:
 * `note 1 nt/Requires wheelchair assistance` adds or replaces the note for the 1st contact in the list.
 * `note 1 nt/` clears the note for the 1st contact in the list.
+
+![note](images/ug_note.png)
 
 ### Managing tags for a contact : `tag`
 
@@ -308,6 +322,8 @@ Examples:
 * `tag 1 at/client at/caseid2` adds the tags `client` `caseid2` to the 1st contact.
 * `tag 1 dt/client dt/caseid2` removes the tags `client` `caseid2` from the 1st contact.
 * `tag 1 at/client dt/caseid1` adds `client` and removes `caseid1` from the 1st contact.
+
+![tag](images/ug_tag.png)
 
 ### Deleting contact(s) : `delete`
 
@@ -343,6 +359,8 @@ Examples:
 * `delete 2-4` deletes the 2nd, 3rd, 4th contact in CareSync.
 * `delete 1 3-5 8` deletes 1st, 3rd, 4th, 5th, 8th contact CareSync.
 
+![delete](images/ug_delete.png)
+
 ### Unarchiving a contact : `unarchive`
 Unarchives a contact identified by the index number shown in the current list.
 
@@ -366,6 +384,8 @@ Examples:
 * `list-archive` followed by `unarchive 1` unarchives the 1st contact in the archived list.
 * `unarchive 2`
 
+![unarchive](images/ug_unarchive.png)
+
 ### Clearing all entries : `clear`
 
 Clears all entries in CareSync.
@@ -387,9 +407,20 @@ Format: `exit`
 
 Autocompletes a command or its prefixes with `TAB`
 
+* Command
+  * Suggests the shortest command that starts with the user input.
+    * `li` suggests `list`
+    * `list` suggests `list-archive`
+* Prefix
+  * Suggests next valid prefix.
+    * `edit 1 n/Alex` suggests `edit 1 n/Alex p/`
+    * `find n/Alex` will not suggest a second prefix.
+
 Examples:
 * After typing `d`, CareSync will suggest `delete`.
 * After typing `add`, CareSync will suggest `n/`.
+
+![autocomplete](images/ug_autocomplete.png)
 
 ### Remembering a command
 
@@ -470,15 +501,12 @@ Action     | Format                                                             
   - Can only contain alphanumeric characters and whitespaces (` `)
   - Max length: 80<br><br>
 - **p/PHONE_NUMBER**: Refers to the phone number of the contact.
-  - Only valid phone numbers:
-    - SG mobile/landline-style 6/8/9 8-digit numbers, with or without a whitespace (` `) or hyphen (`-`)
-    - Toll-free 1800XXXXXXX, 1800 XXX XXXX or 1800-XXX-XXXX numbers
-    - Emergency contact numbers: 995, 999, 1700<br><br>
+  - Can only contain numeric characters, whitespaces (` `) and certain special characters (`+-`)
+  - Max length: 15<br><br>
 - **e/EMAIL**: Refers to the email address of the contact.
   - `local@domain` pattern
   - Max length: 254<br><br>
 - **a/ADDRESS**: Refers to the address of the contact.
-  - The 1st character **must be an alphanumeric character**
   - Can only contain alphanumeric characters, whitespaces (` `) and certain special characters (`,.#'()-`)
   - Max length: 120<br><br>
 - **nt/NOTE**: Refers to the note of the contact.
