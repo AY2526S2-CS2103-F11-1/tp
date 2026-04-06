@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INDEX_TOO_LARGE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.FindCommandParser.KEYWORD_TODAY;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -192,7 +193,7 @@ public class ParserUtil {
         requireNonNull(date);
         String trimmedDate = date.trim();
 
-        if (trimmedDate.equalsIgnoreCase("today")) {
+        if (trimmedDate.equalsIgnoreCase(KEYWORD_TODAY)) {
             return LocalDate.now();
         }
 
