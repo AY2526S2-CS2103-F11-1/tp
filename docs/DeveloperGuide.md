@@ -229,11 +229,6 @@ Aspect: How archived data is represented
 
 {more aspects and alternatives to be added}
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
