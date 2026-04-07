@@ -116,23 +116,24 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S2-CS2103-F11-1/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
-
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object). Each `Person` holds exactly one `Name`, `Phone`, `Email`, `Address`, `Note`, and `VisitDateTime` object, along with zero or more `Tag` objects.
+* manages the lifecycle of clients' data, including adding, deleting, and archiving/unarchiving persons.
+* stores the currently 'selected' `Person` objects as a _separate filtered list_ which is exposed as an unmodifiable `ObservableList<Person>` to be viewed. The UI can be bound to this list so that UI can automatically update when the data in the list changes.
+* supports dynamic filtering of the person list via predicates such as `NameContainsKeywordsPredicate`, `TagContainsPredicate` (with partial matching), and `VisitContainsDatePredicate`.
+* provides an interface for sorting the filtered list via `sortFilteredPersonList`, allowing users to reorder the UI view without changing the original data order.
+* stores a `UserPrefs` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` object.
+* exposes the address book data as a `ReadOnlyAddressBook` object to prevent unintended modification from outside the `Model`.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
+**Note:** `Note` and `VisitDateTime` are optional fields from the user's perspective. However, a `Person` object always contains one `Note` and one `VisitDateTime` object, empty values simply represent fields that have not been set by the user. Also, the `isArchived` flag is a boolean attribute used by the `Model` to determine a person's visibility in the person list.
 
 </box>
 
