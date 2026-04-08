@@ -52,6 +52,10 @@ For more information about CareSync, the product website can be found [here](htt
 
 If you have any issue, please check the [Known issues](https://ay2526s2-cs2103-f11-1.github.io/tp/UserGuide.html#known-issues) page.
 
+### Technical Requirements
+
+**Platform:** Cross-platform support (Windows, macOS, Linux) via **Java `17`**.
+
 ### Acknowledgements
 
 Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
