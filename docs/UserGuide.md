@@ -341,7 +341,7 @@ Deletes one or more contacts from CareSync.
 Format: `delete INDEX [MORE INDEXES or RANGES]…`
 
 * Deletes the contact(s) at the specified index(es) and range(s).
-* A range is specified the format `START_INDEX-END_INDEX`, using `-`.
+* A range is specified in the format `START_INDEX-END_INDEX`, using `-`.
   * `END_INDEX` must be greater than or equal to `START_INDEX` (e.g. delete 3-1 is invalid).
   * The maximum range cannot exceed 100.
 * Indexes do **not need to be in ascending order** (e.g. `delete 5 2 4` is valid).
