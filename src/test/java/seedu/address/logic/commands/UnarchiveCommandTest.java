@@ -58,7 +58,8 @@ public class UnarchiveCommandTest {
 
     @Test
     public void execute_multipleArchivedPersons_refreshShowsOnlyActivePersons() {
-        // EP (valid): archived-list flow with more than one archived person still refreshes to show only archived entries.
+        // EP (valid): archived-list flow with more than one archived person still refreshes to show only
+        // archived entries.
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.archivePerson(firstPerson);
