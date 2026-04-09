@@ -70,6 +70,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndex_validInput_success() throws Exception {
+        // EP (valid): smallest valid positive index and trimmed equivalent.
         // No whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("1"));
 
@@ -79,6 +80,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
     }
 
@@ -93,12 +95,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
+        // EP (valid): canonical valid name.
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
+        // EP (valid): valid input with surrounding whitespace.
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
@@ -106,17 +110,20 @@ public class ParserUtilTest {
 
     @Test
     public void parsePhone_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((String) null));
     }
 
     @Test
     public void parsePhone_invalidValue_throwsParseException() {
+        // EP (invalid): malformed symbols/unsupported punctuation.
         assertThrows(ParseException.class, () -> ParserUtil.parsePhone(INVALID_PHONE));
         assertThrows(ParseException.class, () -> ParserUtil.parsePhone("(123) 456-7890")); // parentheses not allowed
     }
 
     @Test
     public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
+        // EP (valid): supported phone formats.
         Phone expectedPhone = new Phone(VALID_PHONE);
         assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE));
 
@@ -145,6 +152,7 @@ public class ParserUtilTest {
 
     @Test
     public void parsePhone_validValueWithWhitespace_returnsTrimmedPhone() throws Exception {
+        // EP (valid): valid phone with surrounding whitespace.
         String phoneWithWhitespace = WHITESPACE + VALID_PHONE + WHITESPACE;
         Phone expectedPhone = new Phone(VALID_PHONE);
         assertEquals(expectedPhone, ParserUtil.parsePhone(phoneWithWhitespace));
@@ -152,6 +160,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseAddress_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((String) null));
     }
 
@@ -179,38 +188,45 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmail_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((String) null));
     }
 
     @Test
     public void parseEmail_invalidValue_throwsParseException() {
+        // EP (invalid) + BVA: malformed email and over-max-length local part.
         assertThrows(ParseException.class, () -> ParserUtil.parseEmail(INVALID_EMAIL));
         assertThrows(ParseException.class, () -> ParserUtil.parseEmail(INVALID_LONG_EMAIL));
     }
 
     @Test
     public void parseEmail_validValueWithoutWhitespace_returnsEmail() throws Exception {
+        // EP (valid): canonical valid email.
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(VALID_EMAIL));
     }
 
     @Test
     public void parseEmail_validValueWithWhitespace_returnsTrimmedEmail() throws Exception {
+        // EP (valid): valid email with surrounding whitespace.
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
     }
 
     @Test public void parseNote_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseNote(null));
     }
 
     @Test public void parseNote_validValueWithoutWhitespace_returnsNote() throws Exception {
+        // EP (valid): canonical valid note.
         Note expectedNote = new Note(VALID_NOTE);
         assertEquals(expectedNote, ParserUtil.parseNote(VALID_NOTE));
     }
 
     @Test public void parseNote_validValueWithWhitespace_returnsTrimmedNote() throws Exception {
+        // EP (valid): valid note with surrounding whitespace.
         String noteWithWhitespace = WHITESPACE + VALID_NOTE + WHITESPACE;
         Note expectedNote = new Note(VALID_NOTE);
         assertEquals(expectedNote, ParserUtil.parseNote(noteWithWhitespace));
@@ -218,22 +234,26 @@ public class ParserUtilTest {
 
     @Test
     public void parseTag_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseTag(null));
     }
 
     @Test
     public void parseTag_invalidValue_throwsParseException() {
+        // EP (invalid): malformed tag characters.
         assertThrows(ParseException.class, () -> ParserUtil.parseTag(INVALID_TAG));
     }
 
     @Test
     public void parseTag_validValueWithoutWhitespace_returnsTag() throws Exception {
+        // EP (valid): canonical valid tag.
         Tag expectedTag = new Tag(VALID_TAG_1);
         assertEquals(expectedTag, ParserUtil.parseTag(VALID_TAG_1));
     }
 
     @Test
     public void parseTag_validValueWithWhitespace_returnsTrimmedTag() throws Exception {
+        // EP (valid): valid tag with surrounding whitespace.
         String tagWithWhitespace = WHITESPACE + VALID_TAG_1 + WHITESPACE;
         Tag expectedTag = new Tag(VALID_TAG_1);
         assertEquals(expectedTag, ParserUtil.parseTag(tagWithWhitespace));
@@ -241,21 +261,25 @@ public class ParserUtilTest {
 
     @Test
     public void parseTags_null_throwsNullPointerException() {
+        // EP (invalid): null collection.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseTags(null));
     }
 
     @Test
     public void parseTags_collectionWithInvalidTags_throwsParseException() {
+        // EP (invalid): mixed valid and invalid tags.
         assertThrows(ParseException.class, () -> ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG)));
     }
 
     @Test
     public void parseTags_emptyCollection_returnsEmptySet() throws Exception {
+        // BVA: zero-length collection.
         assertTrue(ParserUtil.parseTags(Collections.emptyList()).isEmpty());
     }
 
     @Test
     public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
+        // EP (valid): collection of multiple valid tags.
         Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
@@ -264,22 +288,26 @@ public class ParserUtilTest {
 
     @Test
     public void parseVisitDateTime_null_throwsNullPointerException() {
+        // EP (invalid): null input.
         assertThrows(NullPointerException.class, () -> ParserUtil.parseVisitDateTime(null));
     }
 
     @Test
     public void parseVisitDateTime_invalidValue_throwsParseException() {
+        // EP (invalid): malformed and out-of-range visit date-time.
         assertThrows(ParseException.class, () -> ParserUtil.parseVisitDateTime(INVALID_VISIT_DATE_TIME));
     }
 
     @Test
     public void parseVisitDateTime_validValueWithoutWhitespace_returnsVisitDateTime() throws Exception {
+        // EP (valid): canonical valid visit date-time.
         VisitDateTime expectedVisitDateTime = new VisitDateTime(VALID_VISIT_DATE_TIME);
         assertEquals(expectedVisitDateTime, ParserUtil.parseVisitDateTime(VALID_VISIT_DATE_TIME));
     }
 
     @Test
     public void parseVisitDateTime_validValueWithWhitespace_returnsTrimmedVisitDateTime() throws Exception {
+        // EP (valid): valid visit date-time with surrounding whitespace.
         String visitDateTimeWithWhitespace = WHITESPACE + VALID_VISIT_DATE_TIME + WHITESPACE;
         VisitDateTime expectedVisitDateTime = new VisitDateTime(VALID_VISIT_DATE_TIME);
         assertEquals(expectedVisitDateTime, ParserUtil.parseVisitDateTime(visitDateTimeWithWhitespace));
@@ -287,6 +315,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseVisitDateTime_blankAfterTrim_returnsEmptyVisitDateTime() throws Exception {
+        // EP (valid optional): blank value explicitly maps to empty VisitDateTime.
         VisitDateTime visitDateTime = ParserUtil.parseVisitDateTime("   ");
         assertFalse(visitDateTime.isPresent());
         assertEquals("", visitDateTime.toString());
@@ -294,29 +323,41 @@ public class ParserUtilTest {
 
     @Test
     public void parseVisitDateTime_validInput_success() throws Exception {
+        // EP (valid): normal accepted datetime.
         VisitDateTime visitDateTime = ParserUtil.parseVisitDateTime("2026-12-01 14:00");
         assertTrue(visitDateTime.isPresent());
     }
 
     @Test
+    public void parseVisitDateTime_permissiveInput_returnsNormalizedVisitDateTime() throws Exception {
+        // BVA: month-end overflow and 24:00 rollover coercion.
+        assertEquals("2026-04-30 14:00", ParserUtil.parseVisitDateTime("2026-04-31 14:00").toString());
+        assertEquals("2026-12-02 00:00", ParserUtil.parseVisitDateTime("2026-12-01 24:00").toString());
+    }
+
+    @Test
     public void parseVisitDateTime_invalidInput_throwsParseException() {
+        // EP (invalid): non-date random input.
         assertThrows(ParseException.class, () -> ParserUtil.parseVisitDateTime("invalid input"));
     }
 
     @Test
     public void parseVisitDateTime_emptyString_returnsEmptyVisitDateTime() throws Exception {
+        // BVA: empty string clears value.
         VisitDateTime expected = new VisitDateTime();
         assertEquals(expected, ParserUtil.parseVisitDateTime(""));
     }
 
     @Test
     public void parseVisitDateTime_whitespaceOnly_returnsEmptyVisitDateTime() throws Exception {
+        // BVA: whitespace-only value clears value.
         VisitDateTime expected = new VisitDateTime();
         assertEquals(expected, ParserUtil.parseVisitDateTime("   "));
     }
 
     @Test
     public void parseDateOrToday_validDate_returnsDate() throws Exception {
+        // EP (valid): canonical date and trimmed equivalent.
         LocalDate expectedDate = LocalDate.of(2026, 12, 31);
         assertEquals(expectedDate, ParserUtil.parseDateOrToday("2026-12-31"));
         assertEquals(expectedDate, ParserUtil.parseDateOrToday("  2026-12-31  ")); // to check trimming
@@ -324,66 +365,82 @@ public class ParserUtilTest {
 
     @Test
     public void parseDateOrToday_todayKeyword_returnsToday() throws Exception {
+        // EP (valid): today keyword in lower/upper case.
         assertEquals(LocalDate.now(), ParserUtil.parseDateOrToday("today"));
         assertEquals(LocalDate.now(), ParserUtil.parseDateOrToday("  TODAY  ")); // to check case insensitive
     }
 
     @Test
     public void parseDateOrToday_invalidFormat_throwsParseException() {
+        // EP (invalid): unsupported date format, out-of-range month, and random input.
         // Wrong format (DD-MM-YYYY)
         assertThrows(ParseException.class, () -> ParserUtil.parseDateOrToday("31-12-2026"));
 
-        // Non-existent date (April 31)
-        assertThrows(ParseException.class, () -> ParserUtil.parseDateOrToday("2026-04-31"));
+        // Invalid month remains invalid
+        assertThrows(ParseException.class, () -> ParserUtil.parseDateOrToday("2026-13-01"));
 
         // Some random text
         assertThrows(ParseException.class, () -> ParserUtil.parseDateOrToday("random text"));
     }
 
     @Test
+    public void parseDateOrToday_permissiveInput_roundsToMonthEnd() throws Exception {
+        // BVA: day overflow should coerce to month end.
+        assertEquals(LocalDate.of(2026, 4, 30), ParserUtil.parseDateOrToday("2026-04-31"));
+    }
+
+    @Test
     public void parseSingleIndexOrThrow_nullInput_throwsNullPointerException() {
+        // EP (invalid): null raw input.
         assertThrows(NullPointerException.class, () ->
                 ParserUtil.parseSingleIndexOrThrow(null, "usage"));
     }
 
     @Test
     public void parseSingleIndexOrThrow_emptyInput_throwsParseException() {
+        // BVA: empty token stream.
         assertThrows(ParseException.class, "usage", () ->
                 ParserUtil.parseSingleIndexOrThrow("", "usage"));
     }
 
     @Test
     public void parseSingleIndexOrThrow_whitespaceOnly_throwsParseException() {
+        // BVA: whitespace-only token stream.
         assertThrows(ParseException.class, "usage", () ->
                 ParserUtil.parseSingleIndexOrThrow("   ", "usage"));
     }
 
     @Test
     public void parseSingleIndexOrThrow_multipleTokens_throwsParseException() {
+        // EP (invalid): multiple tokens where exactly one index is expected.
         assertThrows(ParseException.class, "usage", () ->
                 ParserUtil.parseSingleIndexOrThrow("1 2", "usage"));
     }
 
     @Test
     public void parseSingleIndexOrThrow_nonNumeric_throwsParseException() {
+        // EP (invalid): non-numeric token.
         assertThrows(ParseException.class, "usage", () ->
                 ParserUtil.parseSingleIndexOrThrow("abc", "usage"));
     }
 
     @Test
     public void parseIndex_zero_throwsParseException() {
+        // BVA: lower bound just outside valid domain.
         assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
                 ParserUtil.parseIndex("0"));
     }
 
     @Test
     public void parseIndex_negative_throwsParseException() {
+        // BVA: negative value just outside valid domain.
         assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
                 ParserUtil.parseIndex("-1"));
     }
 
     @Test
     public void parseIndex_indexTooLarge_throwsParseException() {
+        // BVA: very large numeric input beyond integer range.
         assertThrows(ParseException.class, MESSAGE_INDEX_TOO_LARGE, () ->
                 ParserUtil.parseIndex("999999999999999999999999"));
     }
