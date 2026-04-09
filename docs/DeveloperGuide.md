@@ -206,7 +206,7 @@ Step 3. The user executes `list-archive`.
 The displayed list is filtered to show only archived persons.
 
 Step 4. The user executes `unarchive 1` from the archived list.
-The unarchive command marks the selected person as active again and refreshes the list.
+The `unarchive` command marks the selected person as active again and refreshes the list.
 
 Step 5. The command result is returned to `Logic`, and `Logic` persists the updated address book through Storage.
 
