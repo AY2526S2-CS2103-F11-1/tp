@@ -224,7 +224,7 @@ Similarly, how an `archive` operation goes through the `Model` component is show
 
 <puml src="diagrams/ArchiveSequenceDiagram-Model.puml" width="420" />
 
-The `unarchive` command does the opposite. It calls `unarchivePerson(person)`, which restores the selected person to active state.
+The `unarchive` command does the opposite. It calls `unarchivePerson(person)`, which restores the selected contact to active state.
 
 <box type="info" seamless>
 
