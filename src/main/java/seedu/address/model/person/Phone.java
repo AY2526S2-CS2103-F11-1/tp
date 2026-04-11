@@ -19,9 +19,10 @@ public class Phone {
 
     /*
      * Regex breakdown:
-     * - (?=.{1," + MAX_LENGTH + "}$) : total length must be between 1 and MAX_LENGTH
-     * - (?=.*\\d)                    : must contain at least one digit (rejects only symbols/spaces)
-     * - [0-9+ -]+                    : allows only digits, plus, spaces, and hyphens
+     * - (?=.{MIN_LENGTH,MAX_LENGTH}$) : total length must be between MIN_LENGTH and MAX_LENGTH
+     * - (?=.*\\d)                     : must contain at least one digit
+     * - [0-9+]                        : first character must be a digit or plus (+)
+     * - [0-9+ -]{2,MAX_LENGTH - 1}    : remaining characters may be digits, plus, spaces, or hyphens
      */
     public static final String VALIDATION_REGEX = "(?=.{" + MIN_LENGTH + "," + MAX_LENGTH
             + "}$)(?=.*\\d)[0-9+][0-9+ -]{2," + (MAX_LENGTH - 1) + "}";
