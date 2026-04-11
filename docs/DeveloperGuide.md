@@ -1534,7 +1534,7 @@ CareSync builds upon these existing features and introduces even more complex fe
 - Cycle through past commands for reuse
 
 Additionally, CareSync introduces constraints of higher complexity in order to reduce bugs and ensure consistency:
-- `NAME`, `PHONE_NUMBER`, `EMAIL`, `ADDRESS`, `NOTE` - character validity and length constraints
+- `NAME`, `PHONE`, `EMAIL`, `ADDRESS`, `NOTE` - character validity and length constraints
 - `TAG` - case-insensitive (for duplicate removal) and length constraints
 - `find` command - mutual exclusivity for search modes and usage of special keywords (i.e. `today`)
 - `delete` command - range index validation
