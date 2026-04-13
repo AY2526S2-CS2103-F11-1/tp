@@ -343,6 +343,11 @@ Examples:
 
 Deletes one or more contacts from CareSync.
 
+<box type="warning">
+
+**Warning: This is IRREVERSIBLE!**
+</box>
+
 Format: `delete INDEX [MORE INDEXES or RANGES]…`
 
 * Deletes the contact(s) at the specified index(es) and range(s).
