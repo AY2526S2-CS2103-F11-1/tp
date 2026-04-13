@@ -129,7 +129,7 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103-F11-1/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+<puml src="diagrams/ModelClassDiagram.puml" width="600" />
 
 The `Model` component,
 
@@ -237,12 +237,13 @@ The `unarchive` command does the opposite. It calls `unarchivePerson(person)`, w
 
 The following activity diagram summarizes what happens when a user executes the `archive` command:
 
-<puml src="diagrams/ArchiveActivityDiagram.puml" width="420" />
+<puml src="diagrams/ArchiveActivityDiagram.puml" width="500" />
 
 <box type="info" seamless>
 
 **Note:** If the command returns an error (for example invalid index), no data is modified.
-**Note:** After successful command execution, Logic persists the current address book through `Storage`.
+
+**Note:** After successful command execution, `Logic` persists the current address book through `Storage`.
 
 </box>
 
@@ -1155,7 +1156,7 @@ Steps:
 1. Run `note -1 nt/Follow up`
 
 Expected:
-- Command fails with message: `Invalid index. Index must be a non-zero positive number (1, 2, 3...).`
+- Command fails with message: `Invalid index. Index must be a non-zero positive integer (1, 2, 3...).`
 
 ### Managing tags for a contact : `tag`
 
@@ -1301,7 +1302,7 @@ Steps:
 1. Run `delete -1`
 
 Expected:
-- Command fails with message: `Invalid index. Index must be a non-zero positive number (1, 2, 3...).`
+- Command fails with message: `Invalid index. Index must be a non-zero positive integer (1, 2, 3...).`
 
 !!**Negative Test Case 7: Index too large**!!
 
