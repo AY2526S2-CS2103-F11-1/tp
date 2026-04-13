@@ -199,18 +199,18 @@ The mechanism uses the following Model operations:
 
 Given below is an example usage scenario and how the archive mechanism behaves at each step.
 
-Step 1. The user executes `archive 1`.
+**Step 1.** The user executes `archive 1`.
 The `archive` command validates the index against the current filtered list and archives the selected contact.
 
-Step 2. The command refreshes the filtered list using the current predicate so the UI reflects the updated state.
+**Step 2.** The command refreshes the filtered list using the current predicate so the UI reflects the updated state.
 
-Step 3. The user executes `list-archive`.
+**Step 3.** The user executes `list-archive`.
 The displayed list is filtered to show only archived contacts.
 
-Step 4. The user executes `unarchive 1` from the archived list.
+**Step 4.** The user executes `unarchive 1` from the archived list.
 The `unarchive` command marks the selected contact as active again and refreshes the list.
 
-Step 5. The command result is returned to `Logic`, and `Logic` persists the updated address book through `Storage`.
+**Step 5.** The command result is returned to `Logic`, and `Logic` persists the updated address book through `Storage`.
 
 The following sequence diagram shows how an `archive` operation goes through the `Logic` component:
 
@@ -231,6 +231,7 @@ The `unarchive` command does the opposite. It calls `unarchivePerson(person)`, w
 <box type="info" seamless>
 
 **Note:** If the selected index is invalid, the command returns an error instead of modifying data.
+
 **Note:** `list-archive` filtering is applied through `updateFilteredPersonList(predicate)`, not inside `archivePerson(...)`.
 
 </box>
@@ -252,13 +253,12 @@ The following activity diagram summarizes what happens when a user executes the 
 Aspect: How archived data is represented
 
 1. Alternative 1 (current choice): Keep an archive flag in each Person.
-   - Pros: Minimal structural changes, straightforward persistence, low implementation overhead.
-   - Cons: Filtering predicates must be applied consistently across commands.
-
+    - Pros: Minimal structural changes, straightforward persistence, low implementation overhead.
+    - Cons: Filtering predicates must be applied consistently across commands.
 
 2. Alternative 2: Move archived contacts into a separate collection.
-   - Pros: Strong conceptual separation between active and archived contacts.
-   - Cons: Higher complexity for edit, find, delete, indexing, and synchronization logic.
+    - Pros: Strong conceptual separation between active and archived contacts.
+    - Cons: Higher complexity for edit, find, delete, indexing, and synchronization logic.
 
 {more aspects and alternatives to be added}
 
